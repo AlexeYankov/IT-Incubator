@@ -1,24 +1,32 @@
 import React, {useState} from 'react';
 import './App.css';
 import TodoList, {TasksType} from './Todolist';
+import {v1} from "uuid";
 
 export type FilterValuesType = "all" | "active" | "completed"
 
 
 function App() {
     const [tasks, setTasks] = useState<Array<TasksType>>([
-        {id: 1, title: "HTML+CSS", isDone: true},
-        {id: 2, title: "RSS", isDone: true},
-        {id: 3, title: "TS", isDone: false},
-        {id: 4, title: "GG", isDone: true},
-        {id: 5, title: "RR", isDone: false}
+        {id: v1(), title: "HTML+CSS", isDone: true},
+        {id: v1(), title: "RSS", isDone: true},
+        {id: v1(), title: "TS", isDone: false},
+        {id: v1(), title: "GG", isDone: true},
+        {id: v1(), title: "RR", isDone: false}
     ])
+    // console.log(tasks)
+    const addTask = (title: string) => {
+        const newTask: TasksType = {
+            id: v1(), title: title, isDone: false
+        }
+        setTasks([newTask, ...tasks])
+    }
     const [filter, setFilter] = useState<FilterValuesType>("all")
     const todoListTitle1: string = "WTB"
     const todoListTitle2: string = "WTS"
     const todoListTitle3: string = "WTR"
     const todoListTitle4: string = "WTD"
-    const removeTask = (taskID: number) => {
+    const removeTask = (taskID: string) => {
         setTasks(tasks.filter(t => t.id !== taskID))
     }
     const changeFilter = (filter: FilterValuesType) => {
@@ -34,6 +42,7 @@ function App() {
                 filter={filter}
                 removeTask={removeTask}
                 changeFilter={changeFilter}
+                addTask={addTask}
             />
             <TodoList
                 tasks={tasks}
@@ -41,6 +50,7 @@ function App() {
                 title={todoListTitle2}
                 removeTask={removeTask}
                 changeFilter={changeFilter}
+                addTask={addTask}
             />
             <TodoList
                 tasks={tasks}
@@ -48,6 +58,7 @@ function App() {
                 title={todoListTitle3}
                 removeTask={removeTask}
                 changeFilter={changeFilter}
+                addTask={addTask}
             />
             <TodoList
                 tasks={tasks}
@@ -55,6 +66,7 @@ function App() {
                 title={todoListTitle4}
                 removeTask={removeTask}
                 changeFilter={changeFilter}
+                addTask={addTask}
             />
         </div>
     );
