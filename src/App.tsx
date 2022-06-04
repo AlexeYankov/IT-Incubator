@@ -16,6 +16,7 @@ function App() {
     ])
     // console.log(tasks)
     const addTask = (title: string) => {
+
         const newTask: TasksType = {
             id: v1(), title: title, isDone: false
         }
@@ -29,6 +30,9 @@ function App() {
     const removeTask = (taskID: string) => {
         setTasks(tasks.filter(t => t.id !== taskID))
     }
+    const changeTaskStatus = (taskisDone: string) => {
+        setTasks(tasks.map(t => t.id === taskisDone ? {...t, isDone: !t.isDone} : t))
+    }
     const changeFilter = (filter: FilterValuesType) => {
         setFilter(filter)
     }
@@ -41,6 +45,7 @@ function App() {
                 tasks={tasks}
                 filter={filter}
                 removeTask={removeTask}
+                changeTaskStatus={changeTaskStatus}
                 changeFilter={changeFilter}
                 addTask={addTask}
             />
@@ -49,6 +54,7 @@ function App() {
                 filter={filter}
                 title={todoListTitle2}
                 removeTask={removeTask}
+                changeTaskStatus={changeTaskStatus}
                 changeFilter={changeFilter}
                 addTask={addTask}
             />
@@ -57,6 +63,7 @@ function App() {
                 filter={filter}
                 title={todoListTitle3}
                 removeTask={removeTask}
+                changeTaskStatus={changeTaskStatus}
                 changeFilter={changeFilter}
                 addTask={addTask}
             />
@@ -65,6 +72,7 @@ function App() {
                 filter={filter}
                 title={todoListTitle4}
                 removeTask={removeTask}
+                changeTaskStatus={changeTaskStatus}
                 changeFilter={changeFilter}
                 addTask={addTask}
             />

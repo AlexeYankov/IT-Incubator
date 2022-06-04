@@ -8,18 +8,20 @@ export type TasksType = {
     isDone: boolean
 }
 
-type PropsType = {
+type TodoListType = {
     title: string
     tasks: TasksType[]
     filter: FilterValuesType
     removeTask: (taskID: string) => void
     changeFilter: (filter: FilterValuesType) => void
     addTask: (title: string) => void
+    changeTaskStatus: (taskisDone: string) => void
 }
 
 
-const TodoList = (props: PropsType) => {
+const TodoList = (props: TodoListType) => {
     const [title, setTitle] = useState<string>("")
+    const [error, setError] = useState<boolean>(false)
     const getTasksForRender = () => {
         let tasksForRender = props.tasks
             if (props.filter === "active") {
@@ -34,10 +36,12 @@ const TodoList = (props: PropsType) => {
     const tasksJSXElements = tasksForRender.length
         ? tasksForRender.map(t => {
             const removeTask = () => props.removeTask(t.id)
+            const changeTaskStatus = () => props.changeTaskStatus(t.id)
+            const taskClasses = t.isDone ? 'is-done' : ''
             return (
                 <li key={t.id}>
-                    <input type="checkbox" checked={t.isDone}/>
-                    <span>{t.title}</span>
+                    <input onClick={changeTaskStatus} type="checkbox" checked={t.isDone}/>
+                    <span className={taskClasses}>{t.title}</span>
                     <button onClick={removeTask}>x</button>
                 </li>
             )
@@ -47,29 +51,46 @@ const TodoList = (props: PropsType) => {
         return () => props.changeFilter(filter)
     }
     const addTask = () => {
-        props.addTask(title)
+        const taskTitle = title.trim()
+        if(taskTitle){
+            props.addTask(taskTitle)
+        } else {
+            setError(true)
+        }
         setTitle("")
     }
+    const allBtnClasses = props.filter === 'all' ? 'active-filter' : ''
+    const activeBtnClasses = props.filter === 'active' ? 'active-filter' : ''
+    const completedBtnClasses = props.filter === 'completed' ? 'active-filter' : ''
+    const errorInputStyle = error ? {border: "2px solid red", outline: 'none'} : undefined
+
     const onKeyDownAddTask = (e: KeyboardEvent<HTMLInputElement>) => e.key === "Enter" && addTask()
-    const onChangeSetTitle = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.currentTarget.value)
+    const onChangeSetTitle = (e: ChangeEvent<HTMLInputElement>) => {
+        const taskTitle = e.currentTarget.value.trim()
+        setTitle(e.currentTarget.value)
+        if(error && taskTitle)setError(false)
+    }
     return (
         <div>
             <h3>{props.title}</h3>
             <div>
                 <input
+                    style={errorInputStyle}
                     value={title}
                     onChange={onChangeSetTitle}
                     onKeyDown={onKeyDownAddTask}
                 />
                 <button onClick={addTask}>+</button>
+                {error && <div style={{color: "red", fontWeight: "bold"}}>Title is required!</div>}
             </div>
             <ul>
                 {tasksJSXElements}
             </ul>
             <div>
-                <button onClick={changeFilter("all")}>All</button>
-                <button onClick={changeFilter("active")}>Active</button>
-                <button onClick={changeFilter("completed")}>Completed</button>
+
+                <button className={allBtnClasses} onClick={changeFilter("all")}>All</button>
+                <button className={activeBtnClasses} onClick={changeFilter("active")}>Active</button>
+                <button className={completedBtnClasses} onClick={changeFilter("completed")}>Completed</button>
             </div>
         </div>
     )
