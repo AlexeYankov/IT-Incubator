@@ -2,6 +2,7 @@ import React, {useState, KeyboardEvent, ChangeEvent} from 'react';
 import './App.css';
 import {FilterValuesType} from './App';
 import TodolistInput from "./components/todolistInput";
+import {Button} from "@mui/material";
 
 export type TasksType = {
     id: string
@@ -43,11 +44,15 @@ const TodoList = (props: TodoListType) => {
     const allBtnClasses = props.filter === 'all' ? 'active-filter' : ''
     const activeBtnClasses = props.filter === 'active' ? 'active-filter' : ''
     const completedBtnClasses = props.filter === 'completed' ? 'active-filter' : ''
+    const removeTodolist = () => {
+        props.removeTodolist(props.todoListID)
+    }
     return (
         <div>
 
             <h3>{props.title}
             </h3>
+            <Button onClick={removeTodolist} variant="contained">x</Button>
             <TodolistInput todoListID={props.todoListID} title={props.title} addTask={props.addTask}
                            key='props.todoListID'/>
             <ul>
