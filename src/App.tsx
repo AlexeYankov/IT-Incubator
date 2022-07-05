@@ -53,12 +53,6 @@ function App() {
         }
         setTasks({...tasks, [todolistID]: [newTask, ...tasks[todolistID]]})
     }
-    const addTodolist = (title: string, todolistID: string) => {
-        const newTodolist: TasksStateType = {
-            [todoListID: string]: TasksType[]
-        }
-        setTodoLists({...todoLists, [todolistID]: [newTodolist, ...todoLists[todolistID]]})
-    }
     const removeTask = (taskID: string, todolistID: string) => {
         const currentTodoListTasks = tasks[todolistID]
         const updatedTasks = currentTodoListTasks.filter(t => t.id !== taskID)
