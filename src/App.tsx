@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import TodoList, {TasksType} from './Todolist';
 import {v1} from "uuid";
+import TodolistInput from "./components/todolistInput";
 
 export type FilterValuesType = "all" | "active" | "completed"
 export type TodoListType = {
@@ -83,6 +84,13 @@ function App() {
         }
         return tasksForRender;
     }
+    const editTodolist = (todolistID: string, newTitle: string) => {
+        setTodoLists(todoLists.map(el=>el.id===todolistID ? {...el, title: newTitle} : el))
+    }
+    const editTask = (todolistID: string, taskID: string, newTitle: string) => {
+        setTasks({...tasks, [todolistID]:tasks[todolistID].map(el=>el.id===taskID ? {...el, title: newTitle} : el)})
+    }
+
     const todoListsComponents = todoLists.map(tl => {
         return (
             todoLists.length
@@ -98,12 +106,27 @@ function App() {
                     changeFilter={changeTodolistFilter}
                     addTask={addTask}
                     removeTodolist={removeTodolist}
+                    editTodolist={editTodolist}
+                    editTask={editTask}
                 />
                 : <span>Create your first Todolist!</span>
         )
     })
+    const addTodolist = (newTitle: string) => {
+        const newID = v1()
+        const newTodolist: TodoListType = {id: newID, title: newTitle, filter: 'all'}
+        setTodoLists([newTodolist, ...todoLists])
+        setTasks({
+            ...tasks, [newID]: [{id: v1(), title: "HTML+CSS", isDone: true},
+                {id: v1(), title: "RSS", isDone: true},
+                {id: v1(), title: "TS", isDone: false},
+                {id: v1(), title: "GG", isDone: true},
+                {id: v1(), title: "RR", isDone: false}]
+        })
+    }
     return (
         <div className="App">
+            <TodolistInput callBack={addTodolist}/>
             {todoListsComponents}
         </div>
     );

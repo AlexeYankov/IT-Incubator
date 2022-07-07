@@ -3,9 +3,7 @@ import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 export default TodolistInput;
 
 type TodoListInputType = {
-    todoListID: string
-    title: string
-    addTask: (title: string, todolistID: string) => void
+    callBack: (title: string) => void
 }
 
 function TodolistInput(props: TodoListInputType) {
@@ -15,7 +13,7 @@ function TodolistInput(props: TodoListInputType) {
     const addTask = () => {
         const taskTitle = title.trim()
         if (taskTitle) {
-            props.addTask(taskTitle, props.todoListID)
+            props.callBack(taskTitle)
         } else {
             setError(true)
         }
@@ -24,7 +22,7 @@ function TodolistInput(props: TodoListInputType) {
     const onKeyDownAddTask = (e: KeyboardEvent<HTMLInputElement>) => e.key === "Enter" && addTask()
     const onChangeSetTitle = (e: ChangeEvent<HTMLInputElement>) => {
         const taskTitle = e.currentTarget.value.trim()
-        setTitle(e.currentTarget.value)
+        setTitle(taskTitle)
         if (error && taskTitle) setError(false)
         if (!error && !taskTitle) setError(true)
     }

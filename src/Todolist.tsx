@@ -3,6 +3,7 @@ import './App.css';
 import {FilterValuesType} from './App';
 import TodolistInput from "./components/todolistInput";
 import {Button} from "@mui/material";
+import TodolistTitle from "./components/TodolistTitle";
 
 export type TasksType = {
     id: string
@@ -17,9 +18,11 @@ type TodoListType = {
     filter: FilterValuesType
     removeTask: (taskID: string, todolistID: string) => void
     changeFilter: (filter: FilterValuesType, todolistID: string) => void
-    addTask: (title: string, todolistID: string) => void
+    addTask: (title: string, todoListID: string) => void
     changeTaskStatus: (tasksID: string, isDone: boolean, todolistID: string) => void
     removeTodolist: (todoListID: string) => void
+    editTodolist: (todolistID: string, newTitle: string) => void
+    editTask: (todolistID: string, taskID: string, newTitle: string) => void
 }
 
 
@@ -30,9 +33,9 @@ const TodoList = (props: TodoListType) => {
             const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => props.changeTaskStatus(t.id, e.currentTarget.checked, props.todoListID)
             const taskClasses = t.isDone ? 'is-done' : ''
             return (
-                <li key={t.id}>
+                <li key={t.id} className={taskClasses}>
                     <input onChange={changeTaskStatus} type="checkbox" checked={t.isDone}/>
-                    <span className={taskClasses}>{t.title}</span>
+                    <TodolistTitle title={t.title} callBack={(newTitle:string)=>editTaskHandler(t.id, newTitle)}/>
                     <button onClick={removeTask}>x</button>
                 </li>
             )
@@ -47,14 +50,20 @@ const TodoList = (props: TodoListType) => {
     const removeTodolist = () => {
         props.removeTodolist(props.todoListID)
     }
+    const CallBackHandler = (title: string) => {
+        props.addTask(title, props.todoListID)
+    }
+    const editTodolistHandler=(newTitle: string)=>{
+        props.editTodolist(props.todoListID, newTitle)
+    }
+    const editTaskHandler = (taskID: string, newTitle: string) => {
+        props.editTask(props.todoListID, taskID, newTitle)
+    }
     return (
         <div>
-
-            <h3>{props.title}
-            </h3>
+            <TodolistTitle title={props.title} callBack={editTodolistHandler}/>
             <Button onClick={removeTodolist} variant="contained">x</Button>
-            <TodolistInput todoListID={props.todoListID} title={props.title} addTask={props.addTask}
-                           key='props.todoListID'/>
+            <TodolistInput callBack={CallBackHandler}/>
             <ul>
                 {tasksJSXElements}
             </ul>
