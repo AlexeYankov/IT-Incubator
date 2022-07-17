@@ -2,7 +2,8 @@ import React, {useState, KeyboardEvent, ChangeEvent} from 'react';
 import './App.css';
 import {FilterValuesType} from './App';
 import TodolistInput from "./components/todolistInput";
-import {Button} from "@mui/material";
+import {Button, Checkbox} from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
 import TodolistTitle from "./components/TodolistTitle";
 
 export type TasksType = {
@@ -29,14 +30,24 @@ type TodoListType = {
 const TodoList = (props: TodoListType) => {
     const tasksJSXElements = props.tasks.length
         ? props.tasks.map(t => {
+            const styleForRTaskList = {
+                maxWidth: '10px',
+                maxHeight: '10px',
+                minWidth: '10px',
+                minHeight: '10px',
+                fontsize: '2px',
+                color: 'black',
+            }
             const removeTask = () => props.removeTask(t.id, props.todoListID)
             const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => props.changeTaskStatus(t.id, e.currentTarget.checked, props.todoListID)
             const taskClasses = t.isDone ? 'is-done' : ''
             return (
                 <li key={t.id} className={taskClasses}>
-                    <input onChange={changeTaskStatus} type="checkbox" checked={t.isDone}/>
+                    {/*<input />*/}
+                    <Checkbox onChange={changeTaskStatus} checked={t.isDone} defaultChecked/>
                     <TodolistTitle title={t.title} callBack={(newTitle:string)=>editTaskHandler(t.id, newTitle)}/>
-                    <button onClick={removeTask}>x</button>
+                    <DeleteIcon onClick={removeTask} style={styleForRTaskList}/>
+
                 </li>
             )
         })
@@ -44,9 +55,9 @@ const TodoList = (props: TodoListType) => {
     const changeFilter = (filter: FilterValuesType) => {
         return () => props.changeFilter(filter, props.todoListID)
     }
-    const allBtnClasses = props.filter === 'all' ? 'active-filter' : ''
-    const activeBtnClasses = props.filter === 'active' ? 'active-filter' : ''
-    const completedBtnClasses = props.filter === 'completed' ? 'active-filter' : ''
+    const allBtnClasses = props.filter === 'all' ? 'contained' : 'outlined'
+    const activeBtnClasses = props.filter === 'active' ? 'contained' : 'outlined'
+    const completedBtnClasses = props.filter === 'completed' ? 'contained' : 'outlined'
     const removeTodolist = () => {
         props.removeTodolist(props.todoListID)
     }
@@ -59,28 +70,34 @@ const TodoList = (props: TodoListType) => {
     const editTaskHandler = (taskID: string, newTitle: string) => {
         props.editTask(props.todoListID, taskID, newTitle)
     }
-    const styleForRTL = {
+
+    const styleForRTodoList = {
         maxWidth: '20px',
         maxHeight: '20px',
         minWidth: '20px',
         minHeight: '20px',
         fontsize: '2px',
-        color: 'blue',
-        backgroundColor: 'red'
+        color: 'black',
+        marginTop: '15px',
+    }
+    const filterAll = {
+        fontsize: '2px',
+        color: 'black',
+        marginLeft: '10px',
     }
     return (
         <div>
             <TodolistTitle title={props.title} callBack={editTodolistHandler}/>
-            <Button onClick={removeTodolist} variant="contained" style={styleForRTL}>x</Button>
+            <DeleteIcon onClick={removeTodolist} style={styleForRTodoList}/>
+
             <TodolistInput callBack={CallBackHandler}/>
             <ul>
                 {tasksJSXElements}
             </ul>
             <div>
-
-                <button className={allBtnClasses} onClick={changeFilter("all")}>All</button>
-                <button className={activeBtnClasses} onClick={changeFilter("active")}>Active</button>
-                <button className={completedBtnClasses} onClick={changeFilter("completed")}>Completed</button>
+                <Button variant={allBtnClasses} onClick={changeFilter("all")} style={filterAll}>All</Button>
+                <Button variant={activeBtnClasses} onClick={changeFilter("active")} style={filterAll}>Active</Button>
+                <Button variant={completedBtnClasses} onClick={changeFilter("completed")} style={filterAll}>Completed</Button>
             </div>
         </div>
     )

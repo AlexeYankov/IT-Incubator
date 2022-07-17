@@ -3,6 +3,7 @@ import './App.css';
 import TodoList, {TasksType} from './Todolist';
 import {v1} from "uuid";
 import TodolistInput from "./components/todolistInput";
+import ButtonAppBar from "./ButtonAppBar";
 
 export type FilterValuesType = "all" | "active" | "completed"
 export type TodoListType = {
@@ -126,6 +127,7 @@ function App() {
     }
     return (
         <div className="App">
+            <ButtonAppBar/>
             <TodolistInput callBack={addTodolist}/>
             {todoListsComponents}
         </div>

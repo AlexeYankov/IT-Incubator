@@ -1,19 +1,22 @@
 .App {
-  padding: 30px;
-  display: flex;
-}
 
-.App > div {
-  margin-right: 50px;
 }
 
 .is-done {
-  margin-left: bold;
   opacity: 0.5;
 }
 
 .active-filter {
   background-color: darkslategray;
   color: white;
+}
+.fontSize {
+  font-max-size: 8px;
+  font-min-size: 8px;
+}
+.error {
+  border-style: solid;
+  border-color: green;
+  border-width: 2px;
 }
 

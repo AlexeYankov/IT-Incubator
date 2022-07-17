@@ -1,4 +1,5 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import {TextField} from "@mui/material";
 
 type TodolistTitleType = {
     title: string
@@ -21,12 +22,15 @@ const TodolistTitle = (props: TodolistTitleType) => {
     const onKeyDownAddTask = (e: KeyboardEvent<HTMLInputElement>) => e.key === "Enter" && addTask()
     return (
         edit
-            ? <input onBlur={EditTitleHandler}
-                     onChange={onChangeHandler}
-                     autoFocus type="text"
-                     value={newTitle}
-                     onKeyDown={onKeyDownAddTask}
-
+            ?<TextField
+                id="outlined-basic"
+                label="Outlined"
+                variant="outlined"
+                onChange={onChangeHandler}
+                autoFocus type="text"
+                value={newTitle}
+                onBlur={EditTitleHandler}
+                onKeyDown={onKeyDownAddTask}
             />
             : <span onDoubleClick={EditTitleHandler}>{props.title}</span>
 

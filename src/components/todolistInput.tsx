@@ -1,4 +1,5 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import {Button, TextField} from "@mui/material";
 
 export default TodolistInput;
 
@@ -9,7 +10,6 @@ type TodoListInputType = {
 function TodolistInput(props: TodoListInputType) {
     const [title, setTitle] = useState<string>("")
     const [error, setError] = useState<boolean>(false)
-    const errorInputStyle = error ? {border: "2px solid red", outline: 'none'} : undefined
     const addTask = () => {
         const taskTitle = title.trim()
         if (taskTitle) {
@@ -26,16 +26,33 @@ function TodolistInput(props: TodoListInputType) {
         if (error && taskTitle) setError(false)
         if (!error && !taskTitle) setError(true)
     }
+    const addTaskStyle = {
+        maxWidth: '40px',
+        maxHeight: '40px',
+        minWidth: '40px',
+        minHeight: '40px',
+        fontsize: '2px',
+        color: 'white',
+        backgroundColor: 'blue',
+        borderRadius: '5px',
+        marginLeft: '2px',
+    }
+    const errorMessage = error && 'Title is required!'
     return (
         <div>
-            <input
-                style={errorInputStyle}
+            <TextField
+                id="outlined-basic"
+                variant="outlined"
+                size="small"
                 value={title}
+                label={errorMessage}
+                error={error}
                 onChange={onChangeSetTitle}
                 onKeyDown={onKeyDownAddTask}
-            />
-            <button onClick={addTask}>+</button>
-            {error && <div style={{color: "red", fontWeight: "bold"}}>Title is required!</div>}
+                className={error ? "error" : ""}
+                />
+
+            <Button onClick={addTask} style={addTaskStyle}>+</Button>
         </div>
     );
 }
