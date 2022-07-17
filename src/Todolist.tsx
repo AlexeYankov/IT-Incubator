@@ -59,10 +59,19 @@ const TodoList = (props: TodoListType) => {
     const editTaskHandler = (taskID: string, newTitle: string) => {
         props.editTask(props.todoListID, taskID, newTitle)
     }
+    const styleForRTL = {
+        maxWidth: '20px',
+        maxHeight: '20px',
+        minWidth: '20px',
+        minHeight: '20px',
+        fontsize: '2px',
+        color: 'blue',
+        backgroundColor: 'red'
+    }
     return (
         <div>
             <TodolistTitle title={props.title} callBack={editTodolistHandler}/>
-            <Button onClick={removeTodolist} variant="contained">x</Button>
+            <Button onClick={removeTodolist} variant="contained" style={styleForRTL}>x</Button>
             <TodolistInput callBack={CallBackHandler}/>
             <ul>
                 {tasksJSXElements}
