@@ -4,6 +4,7 @@ import TodoList, {TasksType} from './Todolist';
 import {v1} from "uuid";
 import TodolistInput from "./components/todolistInput";
 import ButtonAppBar from "./ButtonAppBar";
+import {Container, Grid, Paper} from "@mui/material";
 
 export type FilterValuesType = "all" | "active" | "completed"
 export type TodoListType = {
@@ -86,30 +87,37 @@ function App() {
         return tasksForRender;
     }
     const editTodolist = (todolistID: string, newTitle: string) => {
-        setTodoLists(todoLists.map(el=>el.id===todolistID ? {...el, title: newTitle} : el))
+        setTodoLists(todoLists.map(el => el.id === todolistID ? {...el, title: newTitle} : el))
     }
     const editTask = (todolistID: string, taskID: string, newTitle: string) => {
-        setTasks({...tasks, [todolistID]:tasks[todolistID].map(el=>el.id===taskID ? {...el, title: newTitle} : el)})
+        setTasks({
+            ...tasks,
+            [todolistID]: tasks[todolistID].map(el => el.id === taskID ? {...el, title: newTitle} : el)
+        })
     }
 
     const todoListsComponents = todoLists.map(tl => {
         return (
             todoLists.length
                 ?
-                <TodoList
-                    key={tl.id}
-                    todoListID={tl.id}
-                    title={tl.title}
-                    tasks={getTasksForRender(tl)}
-                    filter={tl.filter}
-                    removeTask={removeTask}
-                    changeTaskStatus={changeTaskStatus}
-                    changeFilter={changeTodolistFilter}
-                    addTask={addTask}
-                    removeTodolist={removeTodolist}
-                    editTodolist={editTodolist}
-                    editTask={editTask}
-                />
+                <Grid item>
+                    <Paper style={{padding: '10px'}}>
+                        <TodoList
+                            key={tl.id}
+                            todoListID={tl.id}
+                            title={tl.title}
+                            tasks={getTasksForRender(tl)}
+                            filter={tl.filter}
+                            removeTask={removeTask}
+                            changeTaskStatus={changeTaskStatus}
+                            changeFilter={changeTodolistFilter}
+                            addTask={addTask}
+                            removeTodolist={removeTodolist}
+                            editTodolist={editTodolist}
+                            editTask={editTask}
+                        />
+                    </Paper>
+                </Grid>
                 : <span>Create your first Todolist!</span>
         )
     })
@@ -128,8 +136,16 @@ function App() {
     return (
         <div className="App">
             <ButtonAppBar/>
-            <TodolistInput callBack={addTodolist}/>
-            {todoListsComponents}
+            <Container fixed>
+                <Grid container>
+                    <TodolistInput callBack={addTodolist}/>
+                </Grid>
+                <Grid container spacing={3}>
+                    {todoListsComponents}
+                </Grid>
+
+            </Container>
+
         </div>
     );
 }
