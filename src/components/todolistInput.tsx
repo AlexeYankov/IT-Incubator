@@ -31,7 +31,7 @@ function TodolistInput(props: TodoListInputType) {
         maxHeight: '40px',
         minWidth: '40px',
         minHeight: '40px',
-        fontsize: '2px',
+        fontsize: '20px',
         color: 'white',
         backgroundColor: 'blue',
         borderRadius: '5px',

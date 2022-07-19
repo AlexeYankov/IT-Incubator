@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useReducer, useState} from 'react';
 import './App.css';
 import TodoList, {TasksType} from './Todolist';
 import {v1} from "uuid";
 import TodolistInput from "./components/todolistInput";
+import TasksReducer, {removeTaskAC} from "./reducers/reducers";
 import ButtonAppBar from "./ButtonAppBar";
 import {Container, Grid, Paper} from "@mui/material";
 
@@ -12,7 +13,7 @@ export type TodoListType = {
     title: string
     filter: FilterValuesType
 }
-type TasksStateType = {
+export type TasksStateType = {
     [todoListID: string]: TasksType[]
 }
 
@@ -25,7 +26,30 @@ function App() {
         {id: todolistID_2, title: "WTS", filter: 'all'},
         {id: todolistID_3, title: "WTR", filter: 'all'}
     ])
-    const [tasks, setTasks] = useState<TasksStateType>({
+    // const [tasks, setTasks] = useState<TasksStateType>({
+    //     [todolistID_1]: [
+    //         {id: v1(), title: "HTML+CSS", isDone: true},
+    //         {id: v1(), title: "RSS", isDone: true},
+    //         {id: v1(), title: "TS", isDone: false},
+    //         {id: v1(), title: "GG", isDone: true},
+    //         {id: v1(), title: "RR", isDone: false}
+    //     ],
+    //     [todolistID_2]: [
+    //         {id: v1(), title: "HTML+CSS", isDone: true},
+    //         {id: v1(), title: "RSS", isDone: true},
+    //         {id: v1(), title: "TS", isDone: false},
+    //         {id: v1(), title: "GG", isDone: true},
+    //         {id: v1(), title: "RR", isDone: false}
+    //     ],
+    //     [todolistID_3]: [
+    //         {id: v1(), title: "HTML+CSS", isDone: true},
+    //         {id: v1(), title: "RSS", isDone: true},
+    //         {id: v1(), title: "TS", isDone: false},
+    //         {id: v1(), title: "GG", isDone: true},
+    //         {id: v1(), title: "RR", isDone: false}
+    //     ]
+    // })
+    const [tasks, taskDispatch] = useReducer(TasksReducer, {
         [todolistID_1]: [
             {id: v1(), title: "HTML+CSS", isDone: true},
             {id: v1(), title: "RSS", isDone: true},
@@ -48,26 +72,30 @@ function App() {
             {id: v1(), title: "RR", isDone: false}
         ]
     })
+
     const [filter, setFilter] = useState<FilterValuesType>("all")
 
     const addTask = (title: string, todolistID: string) => {
-        const newTask: TasksType = {
-            id: v1(), title: title, isDone: false
-        }
-        setTasks({...tasks, [todolistID]: [newTask, ...tasks[todolistID]]})
+        taskDispatch(removeTaskAC(title, todolistID))
+        // const newTask: TasksType = {
+        //     id: v1(), title: title, isDone: false
+        // }
+        // setTasks({...tasks, [todolistID]: [newTask, ...tasks[todolistID]]})
     }
     const removeTask = (taskID: string, todolistID: string) => {
-        const currentTodoListTasks = tasks[todolistID]
-        const updatedTasks = currentTodoListTasks.filter(t => t.id !== taskID)
-        tasks[todolistID] = updatedTasks
-        setTasks({...tasks})
+        taskDispatch(removeTaskAC(taskID, todolistID))
+
+        // const currentTodoListTasks = tasks[todolistID]
+        // const updatedTasks = currentTodoListTasks.filter(t => t.id !== taskID)
+        // tasks[todolistID] = updatedTasks
+        // setTasks({...tasks})
     }
     const changeTaskStatus = (tasksID: string, isDone: boolean, todolistID: string) => {
-        const currentTodoListTasks: TasksType[] = tasks[todolistID]
-        const updatedTasks: TasksType[] = currentTodoListTasks.map(t => t.id === tasksID ? {...t, isDone} : t)
-        tasks[todolistID] = updatedTasks
-
-        setTasks({...tasks})
+        // const currentTodoListTasks: TasksType[] = tasks[todolistID]
+        // const updatedTasks: TasksType[] = currentTodoListTasks.map(t => t.id === tasksID ? {...t, isDone} : t)
+        // tasks[todolistID] = updatedTasks
+        //
+        // setTasks({...tasks})
     }
     const changeTodolistFilter = (newValueFilter: FilterValuesType, todolistID: string) => {
         setTodoLists(todoLists.map(tl => tl.id === todolistID ? {...tl, filter: newValueFilter} : tl))

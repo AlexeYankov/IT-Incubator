@@ -31,22 +31,22 @@ const TodoList = (props: TodoListType) => {
     const tasksJSXElements = props.tasks.length
         ? props.tasks.map(t => {
             const styleForRTaskList = {
-                maxWidth: '10px',
-                maxHeight: '10px',
-                minWidth: '10px',
-                minHeight: '10px',
-                fontsize: '2px',
+                maxWidth: '20px',
+                maxHeight: '20px',
+                minWidth: '20px',
+                minHeight: '20px',
+                fontsize: '20px',
                 color: 'black',
+                marginTop: '10px',
             }
             const removeTask = () => props.removeTask(t.id, props.todoListID)
             const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => props.changeTaskStatus(t.id, e.currentTarget.checked, props.todoListID)
             const taskClasses = t.isDone ? 'is-done' : ''
             return (
                 <li key={t.id} className={taskClasses}>
-                    {/*<input />*/}
                     <Checkbox onChange={changeTaskStatus} checked={t.isDone} defaultChecked/>
                     <TodolistTitle title={t.title} callBack={(newTitle:string)=>editTaskHandler(t.id, newTitle)}/>
-                    <DeleteIcon onClick={removeTask} style={styleForRTaskList}/>
+                    <DeleteIcon onClick={removeTask} style={styleForRTaskList} className="removeTasks"/>
 
                 </li>
             )
@@ -76,12 +76,12 @@ const TodoList = (props: TodoListType) => {
         maxHeight: '20px',
         minWidth: '20px',
         minHeight: '20px',
-        fontsize: '2px',
+        fontsize: '20px',
         color: 'black',
         marginTop: '15px',
     }
     const filterAll = {
-        fontsize: '2px',
+        fontsize: '20px',
         color: 'black',
         marginLeft: '10px',
     }
