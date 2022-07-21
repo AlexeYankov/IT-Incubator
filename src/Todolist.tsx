@@ -45,28 +45,30 @@ const TodoList = (props: TodoListType) => {
             return (
                 <li key={t.id} className={taskClasses}>
                     <Checkbox onChange={changeTaskStatus} checked={t.isDone} defaultChecked/>
-                    <TodolistTitle title={t.title} callBack={(newTitle:string)=>editTaskHandler(t.id, newTitle)}/>
+                    <TodolistTitle title={t.title} callBack={(newTitle: string) => editTaskHandler(t.id, newTitle)}/>
                     <DeleteIcon onClick={removeTask} style={styleForRTaskList} className="removeTasks"/>
 
                 </li>
             )
         })
         : <span>List is empty</span>
+
     const changeFilter = (filter: FilterValuesType) => {
         return () => props.changeFilter(filter, props.todoListID)
     }
-    const allBtnClasses = props.filter === 'all' ? 'contained' : 'outlined'
-    const activeBtnClasses = props.filter === 'active' ? 'contained' : 'outlined'
-    const completedBtnClasses = props.filter === 'completed' ? 'contained' : 'outlined'
+
     const removeTodolist = () => {
         props.removeTodolist(props.todoListID)
     }
+
     const CallBackHandler = (title: string) => {
         props.addTask(title, props.todoListID)
     }
-    const editTodolistHandler=(newTitle: string)=>{
+
+    const editTodolistHandler = (newTitle: string) => {
         props.editTodolist(props.todoListID, newTitle)
     }
+
     const editTaskHandler = (taskID: string, newTitle: string) => {
         props.editTask(props.todoListID, taskID, newTitle)
     }
@@ -80,11 +82,15 @@ const TodoList = (props: TodoListType) => {
         color: 'black',
         marginTop: '15px',
     }
+
     const filterAll = {
         fontsize: '20px',
         color: 'black',
         marginLeft: '10px',
     }
+    const allBtnClasses = props.filter === 'all' ? 'contained' : 'outlined'
+    const activeBtnClasses = props.filter === 'active' ? 'contained' : 'outlined'
+    const completedBtnClasses = props.filter === 'completed' ? 'contained' : 'outlined'
     return (
         <div>
             <TodolistTitle title={props.title} callBack={editTodolistHandler}/>
@@ -97,7 +103,8 @@ const TodoList = (props: TodoListType) => {
             <div>
                 <Button variant={allBtnClasses} onClick={changeFilter("all")} style={filterAll}>All</Button>
                 <Button variant={activeBtnClasses} onClick={changeFilter("active")} style={filterAll}>Active</Button>
-                <Button variant={completedBtnClasses} onClick={changeFilter("completed")} style={filterAll}>Completed</Button>
+                <Button variant={completedBtnClasses} onClick={changeFilter("completed")}
+                        style={filterAll}>Completed</Button>
             </div>
         </div>
     )
