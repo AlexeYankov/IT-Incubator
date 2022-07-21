@@ -1,4 +1,4 @@
-import React, {useState, KeyboardEvent, ChangeEvent} from 'react';
+import React, {useState, KeyboardEvent, ChangeEvent, useReducer} from 'react';
 import './App.css';
 import {FilterValuesType} from './App';
 import TodolistInput from "./components/todolistInput";
@@ -20,7 +20,7 @@ type TodoListType = {
     removeTask: (taskID: string, todolistID: string) => void
     changeFilter: (filter: FilterValuesType, todolistID: string) => void
     addTask: (title: string, todoListID: string) => void
-    changeTaskStatus: (tasksID: string, isDone: boolean, todolistID: string) => void
+    changeTaskStatus: (tasksID: string, todolistID: string, isDone: boolean) => void
     removeTodolist: (todoListID: string) => void
     editTodolist: (todolistID: string, newTitle: string) => void
     editTask: (todolistID: string, taskID: string, newTitle: string) => void
@@ -40,7 +40,7 @@ const TodoList = (props: TodoListType) => {
                 marginTop: '10px',
             }
             const removeTask = () => props.removeTask(t.id, props.todoListID)
-            const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => props.changeTaskStatus(t.id, e.currentTarget.checked, props.todoListID)
+            const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => props.changeTaskStatus(t.id, props.todoListID, e.currentTarget.checked)
             const taskClasses = t.isDone ? 'is-done' : ''
             return (
                 <li key={t.id} className={taskClasses}>
