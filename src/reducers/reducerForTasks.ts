@@ -1,6 +1,7 @@
-import {TasksStateType, TodoListType} from "../App";
-import {TasksType} from "../Todolist";
 import {v1} from "uuid";
+
+import {TasksStateType} from "../App";
+import {TasksType} from "../Todolist";
 
 const TasksReducer = (state: TasksStateType, action: reduceACType): TasksStateType => {
     switch (action.type) {

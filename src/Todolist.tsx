@@ -1,10 +1,12 @@
-import React, {useState, KeyboardEvent, ChangeEvent, useReducer} from 'react';
-import './App.css';
-import {FilterValuesType} from './App';
-import TodolistInput from "./components/todolistInput";
+import React, {ChangeEvent} from 'react';
 import {Button, Checkbox} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
+
+import TodolistInput from "./components/todolistInput";
 import TodolistTitle from "./components/TodolistTitle";
+
+import {FilterValuesType} from './App';
+import './App.css';
 
 export type TasksType = {
     id: string

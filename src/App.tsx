@@ -1,8 +1,16 @@
 import React, {useReducer, useState} from 'react';
-import './App.css';
-import TodoList, {TasksType} from './Todolist';
+import {Container, Grid, Paper} from "@mui/material";
 import {v1} from "uuid";
+
+import TodoList, {TasksType} from './Todolist';
 import TodolistInput from "./components/todolistInput";
+import ButtonAppBar from "./ButtonAppBar";
+import TodolistReducer, {
+    addTodolistTaskAC,
+    changeFilterTodolistAC,
+    editTodolistTaskAC,
+    removeTodolistAC
+} from "./reducers/reducerForTodolists";
 import TasksReducer, {
     addNewTodolistTaskAC,
     addTaskAC,
@@ -10,14 +18,8 @@ import TasksReducer, {
     editTaskAC,
     removeTaskAC
 } from "./reducers/reducerForTasks";
-import ButtonAppBar from "./ButtonAppBar";
-import {Container, Grid, Paper} from "@mui/material";
-import TodolistReducer, {
-    addTodolistTaskAC,
-    changeFilterTodolistAC,
-    editTodolistTaskAC,
-    removeTodolistAC
-} from "./reducers/reducerForTodolists";
+
+import './App.css';
 
 export type FilterValuesType = "all" | "active" | "completed"
 export type TodoListType = {
@@ -61,9 +63,6 @@ function App() {
             {id: v1(), title: "RR", isDone: false}
         ]
     })
-
-    const [filter, setFilter] = useState("all")
-
     const addTask = (title: string, todolistID: string) => {
         taskDispatch(addTaskAC(title, todolistID))
     }
@@ -129,12 +128,13 @@ function App() {
                 : <span>Create your first Todolist!</span>
         )
     })
+
     const addTodolist = (newTitle: string) => {
         const newID = v1()
         dispatchTodolist(addTodolistTaskAC(newTitle, newID))
         taskDispatch(addNewTodolistTaskAC(newID))
     }
-    
+
     return (
         <div className="App">
             <ButtonAppBar/>
