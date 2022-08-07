@@ -1,12 +1,14 @@
-import React, {ChangeEvent} from 'react';
-import {Button, Checkbox} from "@mui/material";
+import React from 'react';
+import {Button} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import TodolistInput from "./components/todolistInput";
 import TodolistTitle from "./components/TodolistTitle";
+import CheckBox from "./components/CheckBox";
 
 import {FilterValuesType} from './App';
 import './App.css';
+
 
 export type TasksType = {
     id: string
@@ -42,11 +44,14 @@ const TodoList = (props: TodoListType) => {
                 marginTop: '10px',
             }
             const removeTask = () => props.removeTask(t.id, props.todoListID)
-            const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => props.changeTaskStatus(t.id, props.todoListID, e.currentTarget.checked)
+            // const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => props.changeTaskStatus(t.id, props.todoListID, e.currentTarget.checked)
+            const callBackHandler = (taskID: string, eventValue: boolean) =>{
+                props.changeTaskStatus(taskID, props.todoListID, eventValue)
+            }
             const taskClasses = t.isDone ? 'is-done' : ''
             return (
                 <li key={t.id} className={taskClasses}>
-                    <Checkbox onChange={changeTaskStatus} checked={t.isDone} defaultChecked/>
+                    <CheckBox callBack={(eventValue)=>callBackHandler(t.id, eventValue)} checked={t.isDone}/>
                     <TodolistTitle title={t.title} callBack={(newTitle: string) => editTaskHandler(t.id, newTitle)}/>
                     <DeleteIcon onClick={removeTask} style={styleForRTaskList} className="removeTasks"/>
 

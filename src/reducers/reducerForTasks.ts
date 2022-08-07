@@ -12,7 +12,7 @@ const TasksReducer = (state: TasksStateType, action: reduceACType): TasksStateTy
         }
         case "ADD-TASK": {
             const newTask: TasksType = {
-                id: v1(), title: action.payload.title, isDone: false
+                id: action.payload.taskID, title: action.payload.title, isDone: false
             }
             return {...state, [action.payload.todolistID]: [newTask, ...state[action.payload.todolistID]]}
         }
@@ -26,13 +26,7 @@ const TasksReducer = (state: TasksStateType, action: reduceACType): TasksStateTy
         }
         case "ADD-TODOLIST-TASK": {
             return ({
-                ...state, [action.payload.newID]: [
-                    {id: v1(), title: "HTML+CSS", isDone: true},
-                    {id: v1(), title: "RSS", isDone: true},
-                    {id: v1(), title: "TS", isDone: false},
-                    {id: v1(), title: "GG", isDone: true},
-                    {id: v1(), title: "RR", isDone: false}
-                ]
+                ...state, [action.payload.newID]: action.payload.newTasks
             })
         }
         case "EDIT-TASK": {
@@ -62,12 +56,13 @@ export const removeTaskAC = (taskID: string, todolistID: string) => {
 }
 
 type  addTaskACType = ReturnType<typeof addTaskAC>
-export const addTaskAC = (title: string, todolistID: string) => {
+export const addTaskAC = (title: string, todolistID: string, taskID: string) => {
     return {
         type: "ADD-TASK",
         payload: {
             title,
-            todolistID
+            todolistID,
+            taskID
         }
     } as const
 }
@@ -97,11 +92,12 @@ export const editTaskAC = (todolistID: string, taskID: string, newTitle: string)
 }
 
 type  addNewTodolistTaskACType = ReturnType<typeof addNewTodolistTaskAC>
-export const addNewTodolistTaskAC = (newID: string) => {
+export const addNewTodolistTaskAC = (newID: string, newTasks: TasksType[]) => {
     return {
         type: "ADD-TODOLIST-TASK",
         payload: {
-            newID
+            newID,
+            newTasks
         }
     } as const
 }

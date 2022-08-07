@@ -1,4 +1,4 @@
-import React, {useReducer, useState} from 'react';
+import React, {useReducer} from 'react';
 import {Container, Grid, Paper} from "@mui/material";
 import {v1} from "uuid";
 
@@ -64,7 +64,8 @@ function App() {
         ]
     })
     const addTask = (title: string, todolistID: string) => {
-        taskDispatch(addTaskAC(title, todolistID))
+        const taskID = v1()
+        taskDispatch(addTaskAC(title, todolistID, taskID))
     }
 
     const removeTask = (taskID: string, todolistID: string) => {
@@ -131,8 +132,15 @@ function App() {
 
     const addTodolist = (newTitle: string) => {
         const newID = v1()
+        const newTasks = [
+            {id: v1(), title: "HTML+CSS", isDone: true},
+            {id: v1(), title: "RSS", isDone: true},
+            {id: v1(), title: "TS", isDone: false},
+            {id: v1(), title: "GG", isDone: true},
+            {id: v1(), title: "RR", isDone: false}
+        ]
         dispatchTodolist(addTodolistTaskAC(newTitle, newID))
-        taskDispatch(addNewTodolistTaskAC(newID))
+        taskDispatch(addNewTodolistTaskAC(newID, newTasks))
     }
 
     return (
