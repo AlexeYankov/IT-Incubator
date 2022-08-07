@@ -3,11 +3,15 @@ import TodolistReducer from "../reducers/reducerForTodolists";
 import TasksReducer from "../reducers/reducerForTasks";
 import { TasksStateType, TodoListType} from "../App";
 
+let a1: string
+let a2: string
+let a3: string
+let a4: string
 
-test.skip('user reducer should remove Todolist',()=>{
-    const a1 = v1()
-    const a2 = v1()
-    const a3 = v1()
+test('user reducer should remove Todolist',()=>{
+    a1 = v1()
+    a2 = v1()
+    a3 = v1()
     const removeTodolistID = a1
     const startState: TodoListType[] = [
         {id: a1, title: "WTB", filter: 'all'},
@@ -19,10 +23,10 @@ test.skip('user reducer should remove Todolist',()=>{
     expect(endState.length).toBe(2)
 })
 
-test.skip('user reducer should change-filter-todolist Todolist', ()=>{
-    const a1 = v1()
-    const a2 = v1()
-    const a3 = v1()
+test('user reducer should change-filter-todolist Todolist', ()=>{
+    a1 = v1()
+    a2 = v1()
+    a3 = v1()
     const todolistIDtest = a1
     const newValueFilter1 = 'active'
     const startStateTodolists: TodoListType[] = [
@@ -36,10 +40,10 @@ test.skip('user reducer should change-filter-todolist Todolist', ()=>{
     expect(endState[0].filter).toBe('active')
 })
 
-test.skip ('user reducer should edit Todolist name',()=>{
-    const a1 = v1()
-    const a2 = v1()
-    const a3 = v1()
+test('user reducer should edit Todolist name',()=>{
+    a1 = v1()
+    a2 = v1()
+    a3 = v1()
     const todolistIDtest = a2
     const newTitleTest = 'Milk'
     const startStateTodolists: TodoListType[] = [
@@ -53,11 +57,11 @@ test.skip ('user reducer should edit Todolist name',()=>{
 
 })
 
-test.skip ('user reducer should add new Todolist',()=>{
-    const a1 = v1()
-    const a2 = v1()
-    const a3 = v1()
-    const a4 = v1()
+test('user reducer should add new Todolist',()=>{
+    a1 = v1()
+    a2 = v1()
+    a3 = v1()
+    a4 = v1()
     const todolistIDtest = a4
     const newTitleTest = 'Milk'
     const startStateTodolists: TodoListType[] = [
@@ -71,12 +75,12 @@ test.skip ('user reducer should add new Todolist',()=>{
 
 })
 
-test.skip ('user reducer should remove Task to Todolist',()=>{
+test('user reducer should remove Task to Todolist',()=>{
 
-    const a1 = v1()
-    const a2 = v1()
-    const a3 = v1()
-    const todolistIDtest = a3
+    a1 = v1()
+    a2 = v1()
+    a3 = v1()
+    const todolistIDTest = a3
     const newID = '13'
     const newID1 = '14'
     const newID2 = '15'
@@ -98,18 +102,18 @@ test.skip ('user reducer should remove Task to Todolist',()=>{
         ]
 
     }
-    const endState = TasksReducer(startStateTodolists,{type:'REMOVE-TASK', payload: {taskID: newID, todolistID: todolistIDtest}})
+    const endState = TasksReducer(startStateTodolists,{type:'REMOVE-TASK', payload: {taskID: newID, todolistID: todolistIDTest}})
 
-    expect(endState[todolistIDtest].length).toBe(2)
-    expect(endState[todolistIDtest][0].id).toBe(newID1)
+    expect(endState[todolistIDTest].length).toBe(2)
+    expect(endState[todolistIDTest][0].id).toBe(newID1)
 
 })
 
-test.skip ('user reducer should Add Task to Todolist',()=>{
-    const a1 = v1()
-    const a2 = v1()
-    const a3 = v1()
-    const todolistIDtest = a3
+test('user reducer should Add Task to Todolist',()=>{
+    a1 = v1()
+    a2 = v1()
+    a3 = v1()
+    const todolistIDTest = a3
     const newID = '13'
     const newID1 = '14'
     const newID2 = '15'
@@ -133,21 +137,21 @@ test.skip ('user reducer should Add Task to Todolist',()=>{
         ]
 
     }
-    const endState = TasksReducer(startStateTodolists,{type:'ADD-TASK', payload: {title: todoNewTitle, todolistID: todolistIDtest,taskID: newID3}})
+    const endState = TasksReducer(startStateTodolists,{type:'ADD-TASK', payload: {title: todoNewTitle, todolistID: todolistIDTest,taskID: newID3}})
 
-    expect(endState[todolistIDtest].length).toBe(4)
-    expect(endState[todolistIDtest][0].id).toBe(newID3)
+    expect(endState[todolistIDTest].length).toBe(4)
+    expect(endState[todolistIDTest][0].id).toBe(newID3)
 })
 
-test.skip ('user reducer should change Task status to Todolist',()=>{
-    const a1 = v1()
-    const a2 = v1()
-    const a3 = v1()
-    const todolistIDtest = a3
+test('user reducer should change Task status to Todolist',()=>{
+    a1 = v1()
+    a2 = v1()
+    a3 = v1()
+    const todolistIDTest = a3
     const newID = '13'
     const newID1 = '14'
     const newID2 = '15'
-    const chengeCheck = true
+    const changeCheck = true
     const startStateTodolists: TasksStateType = {
         [a1]: [
         {id: v1(), title: "HTML+CSS", isDone: true},
@@ -166,15 +170,15 @@ test.skip ('user reducer should change Task status to Todolist',()=>{
         ]
 
     }
-    const endState = TasksReducer(startStateTodolists,{type:'CHANGE-TASK-STATUS', payload: {tasksID: newID, todolistID: todolistIDtest, isDone: chengeCheck}})
+    const endState = TasksReducer(startStateTodolists,{type:'CHANGE-TASK-STATUS', payload: {tasksID: newID, todolistID: todolistIDTest, isDone: changeCheck}})
 
-    expect(endState[todolistIDtest][0].isDone).toBe(true)
+    expect(endState[todolistIDTest][0].isDone).toBe(true)
 })
 
 test ('user reducer should Add new Todolist to Todolist',()=>{
-    const a1 = v1()
-    const a2 = v1()
-    const a3 = v1()
+    a1 = v1()
+    a2 = v1()
+    a3 = v1()
     const newID = '13'
     const newID1 = '14'
     const newID2 = '15'
@@ -208,14 +212,14 @@ test ('user reducer should Add new Todolist to Todolist',()=>{
 })
 
 test ('user reducer should edit Task title to Todolist',()=>{
-    const a1 = v1()
-    const a2 = v1()
-    const a3 = v1()
+    a1 = v1()
+    a2 = v1()
+    a3 = v1()
     const todolistIDtest = a3
     const newID = '13'
     const newID1 = '14'
     const newID2 = '15'
-    const chengeTitle = 'burger'
+    const changeTitle = 'burger'
     const startStateTodolists: TasksStateType = {
         [a1]: [
             {id: v1(), title: "HTML+CSS", isDone: true},
@@ -234,7 +238,7 @@ test ('user reducer should edit Task title to Todolist',()=>{
         ]
 
     }
-    const endState = TasksReducer(startStateTodolists,{type:'EDIT-TASK', payload: {todolistID: todolistIDtest, taskID: newID,  newTitle: chengeTitle}})
+    const endState = TasksReducer(startStateTodolists,{type:'EDIT-TASK', payload: {todolistID: todolistIDtest, taskID: newID,  newTitle: changeTitle}})
 
     expect(endState[todolistIDtest][0].title).toBe('burger')
 })
