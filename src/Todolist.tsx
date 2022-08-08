@@ -5,9 +5,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import TodolistInput from "./components/todolistInput";
 import TodolistTitle from "./components/TodolistTitle";
 import CheckBox from "./components/CheckBox";
+import {AppRootStateType} from "./state/store";
 
-import {FilterValuesType} from './App';
+import {FilterValuesType, TasksStateType, TodoListType} from './App';
 import './App.css';
+import ReducerForTodolists from "./reducers/reducerForTodolists";
+import {useSelector} from "react-redux";
 
 
 export type TasksType = {
@@ -16,24 +19,28 @@ export type TasksType = {
     isDone: boolean
 }
 
-type TodoListType = {
-    todoListID: string
-    title: string
-    tasks: TasksType[]
-    filter: FilterValuesType
-    removeTask: (taskID: string, todolistID: string) => void
-    changeFilter: (filter: FilterValuesType, todolistID: string) => void
-    addTask: (title: string, todoListID: string) => void
-    changeTaskStatus: (tasksID: string, todolistID: string, isDone: boolean) => void
-    removeTodolist: (todoListID: string) => void
-    editTodolist: (todolistID: string, newTitle: string) => void
-    editTask: (todolistID: string, taskID: string, newTitle: string) => void
+type PropsType = {
+    todolist: TodoListType
+    task: TasksStateType
+    // title: string
+    // tasks: TasksType[]
+    // filter: FilterValuesType
+    // removeTask: (taskID: string, todolistID: string) => void
+    // changeFilter: (filter: FilterValuesType, todolistID: string) => void
+    // addTask: (title: string, todoListID: string) => void
+    // changeTaskStatus: (tasksID: string, todolistID: string, isDone: boolean) => void
+    // removeTodolist: (todoListID: string) => void
+    // editTodolist: (todolistID: string, newTitle: string) => void
+    // editTask: (todolistID: string, taskID: string, newTitle: string) => void
 }
 
 
-const TodoList = (props: TodoListType) => {
-    const tasksJSXElements = props.tasks.length
-        ? props.tasks.map(t => {
+const TodoList = ({todolist}: PropsType) => {
+    const {id, title, filter} = {...todolist}
+    const tasks = useSelector<AppRootStateType, TasksType[]>(state => state.tasks[id])
+
+    const tasksJSXElements = tasks.length
+        ? tasks.map(t => {
             const styleForRTaskList = {
                 maxWidth: '20px',
                 maxHeight: '20px',
@@ -43,10 +50,10 @@ const TodoList = (props: TodoListType) => {
                 color: 'black',
                 marginTop: '10px',
             }
-            const removeTask = () => props.removeTask(t.id, props.todoListID)
+            const removeTask = () => removeTask(t.id, todoListID)
             // const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => props.changeTaskStatus(t.id, props.todoListID, e.currentTarget.checked)
             const callBackHandler = (taskID: string, eventValue: boolean) =>{
-                props.changeTaskStatus(taskID, props.todoListID, eventValue)
+                changeTaskStatus(taskID, todoListID, eventValue)
             }
             const taskClasses = t.isDone ? 'is-done' : ''
             return (
@@ -61,23 +68,23 @@ const TodoList = (props: TodoListType) => {
         : <span>List is empty</span>
 
     const changeFilter = (filter: FilterValuesType) => {
-        return () => props.changeFilter(filter, props.todoListID)
+        return () => changeFilter(filter, todoListID)
     }
 
     const removeTodolist = () => {
-        props.removeTodolist(props.todoListID)
+        removeTodolist(todoListID)
     }
 
     const CallBackHandler = (title: string) => {
-        props.addTask(title, props.todoListID)
+        addTask(title, todoListID)
     }
 
     const editTodolistHandler = (newTitle: string) => {
-        props.editTodolist(props.todoListID, newTitle)
+        editTodolist(todoListID, newTitle)
     }
 
     const editTaskHandler = (taskID: string, newTitle: string) => {
-        props.editTask(props.todoListID, taskID, newTitle)
+        editTask(todoListID, taskID, newTitle)
     }
 
     const styleForRTodoList = {
@@ -95,12 +102,12 @@ const TodoList = (props: TodoListType) => {
         color: 'black',
         marginLeft: '10px',
     }
-    const allBtnClasses = props.filter === 'all' ? 'contained' : 'outlined'
-    const activeBtnClasses = props.filter === 'active' ? 'contained' : 'outlined'
-    const completedBtnClasses = props.filter === 'completed' ? 'contained' : 'outlined'
+    const allBtnClasses = filter === 'all' ? 'contained' : 'outlined'
+    const activeBtnClasses = filter === 'active' ? 'contained' : 'outlined'
+    const completedBtnClasses = filter === 'completed' ? 'contained' : 'outlined'
     return (
         <div>
-            <TodolistTitle title={props.title} callBack={editTodolistHandler}/>
+            <TodolistTitle title={title} callBack={editTodolistHandler}/>
             <DeleteIcon onClick={removeTodolist} style={styleForRTodoList}/>
 
             <TodolistInput callBack={CallBackHandler}/>
