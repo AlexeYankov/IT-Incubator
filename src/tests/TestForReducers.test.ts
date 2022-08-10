@@ -1,6 +1,6 @@
 import {v1} from "uuid";
-import TodolistReducer from "../reducers/reducerForTodolists";
-import TasksReducer from "../reducers/reducerForTasks";
+import todolistReducer from "../reducers/reducerForTodolists";
+import tasksReducer from "../reducers/reducerForTasks";
 import { TasksStateType, TodoListType} from "../App";
 
 let a1: string
@@ -18,7 +18,7 @@ test('user reducer should remove Todolist',()=>{
         {id: a2, title: "WTB", filter: 'all'},
         {id: a3, title: "WTB", filter: 'all'},
     ]
-    const endState = TodolistReducer(startState,{type:'REMOVE-TODOLIST', payload: {todolistID: removeTodolistID}})
+    const endState = todolistReducer(startState,{type:'REMOVE-TODOLIST', payload: {todolistID: removeTodolistID}})
 
     expect(endState.length).toBe(2)
 })
@@ -35,7 +35,7 @@ test('user reducer should change-filter-todolist Todolist', ()=>{
         {id: a3, title: "WTB", filter: 'active'},
     ]
 
-    const endState = TodolistReducer(startStateTodolists,{type:'CHANGE-FILTER-TODOLIST', payload: {newValueFilter: newValueFilter1, todolistID: todolistIDtest}})
+    const endState = todolistReducer(startStateTodolists,{type:'CHANGE-FILTER-TODOLIST', payload: {newValueFilter: newValueFilter1, todolistID: todolistIDtest}})
 
     expect(endState[0].filter).toBe('active')
 })
@@ -51,7 +51,7 @@ test('user reducer should edit Todolist name',()=>{
         {id: a2, title: "WTs", filter: 'active'},
         {id: a3, title: "WTB", filter: 'active'},
     ]
-    const endState = TodolistReducer(startStateTodolists,{type:'EDIT-TODOLIST', payload: {todolistID: todolistIDtest, newTitle: newTitleTest}})
+    const endState = todolistReducer(startStateTodolists,{type:'EDIT-TODOLIST', payload: {todolistID: todolistIDtest, newTitle: newTitleTest}})
 
     expect(endState[1].title).toBe('Milk')
 
@@ -69,7 +69,7 @@ test('user reducer should add new Todolist',()=>{
         {id: a2, title: "WTs", filter: 'active'},
         {id: a3, title: "WTB", filter: 'active'},
     ]
-    const endState = TodolistReducer(startStateTodolists,{type:'ADD-TODOLIST', payload: {newTitle: newTitleTest, newID: todolistIDtest}})
+    const endState = todolistReducer(startStateTodolists,{type:'ADD-TODOLIST', payload: {newTitle: newTitleTest, newID: todolistIDtest}})
 
     expect(endState.length).toBe(4)
 
@@ -102,7 +102,7 @@ test('user reducer should remove Task to Todolist',()=>{
         ]
 
     }
-    const endState = TasksReducer(startStateTodolists,{type:'REMOVE-TASK', payload: {taskID: newID, todolistID: todolistIDTest}})
+    const endState = tasksReducer(startStateTodolists,{type:'REMOVE-TASK', payload: {taskID: newID, todolistID: todolistIDTest}})
 
     expect(endState[todolistIDTest].length).toBe(2)
     expect(endState[todolistIDTest][0].id).toBe(newID1)
@@ -137,7 +137,7 @@ test('user reducer should Add Task to Todolist',()=>{
         ]
 
     }
-    const endState = TasksReducer(startStateTodolists,{type:'ADD-TASK', payload: {title: todoNewTitle, todolistID: todolistIDTest,taskID: newID3}})
+    const endState = tasksReducer(startStateTodolists,{type:'ADD-TASK', payload: {title: todoNewTitle, todolistID: todolistIDTest,taskID: newID3}})
 
     expect(endState[todolistIDTest].length).toBe(4)
     expect(endState[todolistIDTest][0].id).toBe(newID3)
@@ -170,7 +170,7 @@ test('user reducer should change Task status to Todolist',()=>{
         ]
 
     }
-    const endState = TasksReducer(startStateTodolists,{type:'CHANGE-TASK-STATUS', payload: {tasksID: newID, todolistID: todolistIDTest, isDone: changeCheck}})
+    const endState = tasksReducer(startStateTodolists,{type:'CHANGE-TASK-STATUS', payload: {tasksID: newID, todolistID: todolistIDTest, isDone: changeCheck}})
 
     expect(endState[todolistIDTest][0].isDone).toBe(true)
 })
@@ -206,7 +206,7 @@ test ('user reducer should Add new Todolist to Todolist',()=>{
         ]
 
     }
-    const endState = TasksReducer(startStateTodolists,{type:'ADD-TODOLIST-TASK', payload: {newID: newID3, newTasks: testTasks}})
+    const endState = tasksReducer(startStateTodolists,{type:'ADD-TODOLIST-TASK', payload: {newID: newID3, newTasks: testTasks}})
 
     expect(endState[newID3][1].title).toBe('tts')
 })
@@ -238,7 +238,7 @@ test ('user reducer should edit Task title to Todolist',()=>{
         ]
 
     }
-    const endState = TasksReducer(startStateTodolists,{type:'EDIT-TASK', payload: {todolistID: todolistIDtest, taskID: newID,  newTitle: changeTitle}})
+    const endState = tasksReducer(startStateTodolists,{type:'EDIT-TASK', payload: {todolistID: todolistIDtest, taskID: newID,  newTitle: changeTitle}})
 
     expect(endState[todolistIDtest][0].title).toBe('burger')
 })

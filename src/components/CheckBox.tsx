@@ -14,7 +14,7 @@ export const CheckBox = (props: CheckBoxPropsType) => {
         <Checkbox
             onChange={onChangeHandler}
             checked={props.checked}
-            defaultChecked
+            // defaultChecked
         />
     );
 };

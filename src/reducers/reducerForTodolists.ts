@@ -1,8 +1,8 @@
-import {FilterValuesType, TodoListType} from "../App";
+import {TodoListType} from "../App";
 
 let initialState: TodoListType[] = []
 
-export const TodolistReducer = (state = initialState, action: reduceTodolistACType): TodoListType[] => {
+export const todolistReducer = (state = initialState, action: reduceTodolistACType): TodoListType[] => {
     switch (action.type) {
         case "REMOVE-TODOLIST": {
             const currentTodolist = state.filter(tl => tl.id !== action.payload.todolistID)
@@ -24,6 +24,7 @@ export const TodolistReducer = (state = initialState, action: reduceTodolistACTy
         }
         case "ADD-TODOLIST": {
             const newTodolist: TodoListType = {id: action.payload.newID, title: action.payload.newTitle, filter: 'all'}
+
             return [newTodolist, ...state]
         }
         default:
@@ -31,8 +32,8 @@ export const TodolistReducer = (state = initialState, action: reduceTodolistACTy
     }
 }
 
-type reduceTodolistACType = removeTaskACType | changeFilterTaskACType | editTodolistTaskACType | addTodolistTaskACType
-type  removeTaskACType = ReturnType<typeof removeTodolistAC>
+type reduceTodolistACType = removeTodolistACType | changeFilterACType | editTodolistACType | addTodolistACType
+type  removeTodolistACType = ReturnType<typeof removeTodolistAC>
 export const removeTodolistAC = (todolistID: string) => {
     return {
         type: "REMOVE-TODOLIST",
@@ -42,19 +43,19 @@ export const removeTodolistAC = (todolistID: string) => {
     } as const
 }
 
-type  changeFilterTaskACType = ReturnType<typeof changeFilterTodolistAC>
-export const changeFilterTodolistAC = (newValueFilter: FilterValuesType, todolistID: string) => {
+type  changeFilterACType = ReturnType<typeof changeFilterTodolistAC>
+export const changeFilterTodolistAC = (todolistID: string, newValueFilter: string) => {
     return {
         type: "CHANGE-FILTER-TODOLIST",
         payload: {
+            todolistID,
             newValueFilter,
-            todolistID
         }
     } as const
 }
 
-type  editTodolistTaskACType = ReturnType<typeof editTodolistTaskAC>
-export const editTodolistTaskAC = (todolistID: string, newTitle: string) => {
+type  editTodolistACType = ReturnType<typeof editTodolistAC>
+export const editTodolistAC = (todolistID: string, newTitle: string) => {
     return {
         type: "EDIT-TODOLIST",
         payload: {
@@ -64,8 +65,8 @@ export const editTodolistTaskAC = (todolistID: string, newTitle: string) => {
     } as const
 }
 
-type  addTodolistTaskACType = ReturnType<typeof addTodolistTaskAC>
-export const addTodolistTaskAC = (newTitle: string, newID: string) => {
+type  addTodolistACType = ReturnType<typeof addTodolistAC>
+export const addTodolistAC = (newTitle: string, newID: string) => {
     return {
         type: "ADD-TODOLIST",
         payload: {
@@ -75,4 +76,4 @@ export const addTodolistTaskAC = (newTitle: string, newID: string) => {
     } as const
 }
 
-export default TodolistReducer
+export default todolistReducer

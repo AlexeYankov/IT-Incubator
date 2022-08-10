@@ -3,7 +3,7 @@ import {TextField} from "@mui/material";
 
 type TodolistTitleType = {
     title: string
-    callBack: (changeTitle: string) => void
+    setTodolistTaskTitle: (setTitle: string) => void
 }
 
 const TodolistTitle = (props: TodolistTitleType) => {
@@ -14,12 +14,12 @@ const TodolistTitle = (props: TodolistTitleType) => {
     }
     const EditTitleHandler = () => {
         setEdit(!edit)
-        addTask()
+        addTaskTitle()
     }
-    const addTask = () => {
-        props.callBack(newTitle);
+    const addTaskTitle = () => {
+        props.setTodolistTaskTitle(newTitle);
     }
-    const onKeyDownAddTask = (e: KeyboardEvent<HTMLInputElement>) => e.key === "Enter" && addTask()
+    const onKeyDownAddTask = (e: KeyboardEvent<HTMLInputElement>) => e.key === "Enter" && addTaskTitle()
     return (
         edit
             ?<TextField

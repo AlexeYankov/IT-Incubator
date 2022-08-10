@@ -4,22 +4,22 @@ import {Button, TextField} from "@mui/material";
 export default TodolistInput;
 
 type TodoListInputType = {
-    callBack: (title: string) => void
+    addNewTodolist: (title: string) => void
 }
 
 function TodolistInput(props: TodoListInputType) {
     const [title, setTitle] = useState<string>("")
     const [error, setError] = useState<boolean>(false)
-    const addTask = () => {
+    const addTodolist = () => {
         const taskTitle = title.trim()
         if (taskTitle) {
-            props.callBack(taskTitle)
+            props.addNewTodolist(taskTitle)
         } else {
             setError(true)
         }
         setTitle("")
     }
-    const onKeyDownAddTask = (e: KeyboardEvent<HTMLInputElement>) => e.key === "Enter" && addTask()
+    const onKeyDownAddTask = (e: KeyboardEvent<HTMLInputElement>) => e.key === "Enter" && addTodolist()
     const onChangeSetTitle = (e: ChangeEvent<HTMLInputElement>) => {
         const taskTitle = e.currentTarget.value.trim()
         setTitle(taskTitle)
@@ -52,7 +52,7 @@ function TodolistInput(props: TodoListInputType) {
                 className={error ? "error" : ""}
                 />
 
-            <Button onClick={addTask} style={addTaskStyle}>+</Button>
+            <Button onClick={addTodolist} style={addTaskStyle}>+</Button>
         </div>
     );
 }
