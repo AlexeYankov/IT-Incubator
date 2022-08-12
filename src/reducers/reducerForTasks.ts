@@ -26,13 +26,20 @@ export const tasksReducer = (state = initialState, action: reduceACType) => {
             return ({...state, [action.payload.todolistID]: updatedTasks})
         }
         case "EDIT-CURRENT-TASK": {
-            return ({
-                ...state,
-                [action.payload.todolistID]: state[action.payload.todolistID].map(el => el.id === action.payload.tasksID ? {
-                    ...el,
-                    title: action.payload.newTitle
-                } : el)
-            })
+        //     return ({
+        //         ...state,
+        //         [action.payload.todolistID]: state[action.payload.todolistID].map(el => el.id === action.payload.tasksID ? {
+        //             ...el,
+        //             title: action.payload.newTitle
+        //         } : el)
+        //     })
+        // }
+            const currentTodoListTasks: TasksType[] = state[action.payload.todolistID]
+            const updatedTasks: TasksType[] = currentTodoListTasks.map(t => t.id === action.payload.tasksID ? {
+                ...t,
+                title: action.payload.newTitle
+            } : t)
+            return ({...state, [action.payload.todolistID]: updatedTasks})
         }
         case "ADD-START-TASK-TO-CURRENT-TODOLIST": {
             return {...state, [action.payload.todolistID]: []}

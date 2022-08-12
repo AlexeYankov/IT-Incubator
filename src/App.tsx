@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useCallback} from 'react';
 import {Container, Grid, Paper} from "@mui/material";
 import {v1} from "uuid";
 
 import TodoList, {TasksType} from './Todolist';
 import TodolistInput from "./components/todolistInput";
+import GridComponents from "./components/GridComponents";
 import ButtonAppBar from "./ButtonAppBar";
 import {addTodolistAC } from "./reducers/reducerForTodolists";
 import { addStartTaskAC } from "./reducers/reducerForTasks";
@@ -22,44 +23,46 @@ export type TasksStateType = {
 }
 
 function App() {
-
+    console.log('AppComponent')
     let todolistData = useSelector<AppRootStateType, TodoListType[]>(state => state.todolists)
 
     let dispatch = useDispatch()
 
-    const addTodolist = (newTitle: string) => {
+    const addTodolist = useCallback((newTitle: string) => {
         const newID = v1()
         dispatch(addTodolistAC(newTitle, newID))
         dispatch(addStartTaskAC(newID))
-    }
+    },[dispatch])
 
     const todoListsComponents = todolistData.map(tl => {
         return (
-            <Grid item key={tl.id}>
-                <Paper style={{padding: '10px'}}>
-                    <TodoList
-                        key={tl.id}
-                        todolist={tl}
-                    />
-                </Paper>
-            </Grid>
-        )
-    })
-
-
+    //         <GridComponents
+    //             key={tl.id}
+    //         id={tl.id}
+    //         todolist={tl}
+    //         />
+    //     )
+    // })
+    <Grid item key={tl.id}>
+        <Paper style={{padding: '10px'}}>
+            <TodoList
+                key={tl.id}
+                todolist={tl}
+            />
+        </Paper>
+    </Grid>
+    )})
     return (
         <div className="App">
             <ButtonAppBar/>
             <Container fixed>
                 <Grid container>
-                    <TodolistInput addNewTodolist={addTodolist}/>
+                    <div style={{paddingTop: '20px'}}><TodolistInput addNewTodolist={addTodolist}/></div>
                 </Grid>
                 <Grid container spacing={3}>
                     {todoListsComponents}
                 </Grid>
-
             </Container>
-
         </div>
     );
 }

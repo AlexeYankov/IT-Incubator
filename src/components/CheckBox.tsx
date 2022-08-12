@@ -8,6 +8,7 @@ type CheckBoxPropsType ={
 
 export const CheckBox = (props: CheckBoxPropsType) => {
     const onChangeHandler=(e: ChangeEvent<HTMLInputElement>)=> {
+        console.log('cjex')
         props.callBack(e.currentTarget.checked)
     }
     return (

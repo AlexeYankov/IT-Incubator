@@ -3,7 +3,7 @@ import {TextField} from "@mui/material";
 
 type TodolistTitleType = {
     title: string
-    setTodolistTaskTitle: (setTitle: string) => void
+    setTodolistTaskTitle: (newTitle: string) => void
 }
 
 const TodolistTitle = (props: TodolistTitleType) => {

@@ -1,19 +1,18 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {Button, TextField} from "@mui/material";
 
-export default TodolistInput;
-
 type TodoListInputType = {
     addNewTodolist: (title: string) => void
 }
 
-function TodolistInput(props: TodoListInputType) {
+const TodolistInput = React.memo((props: TodoListInputType) => {
     const [title, setTitle] = useState<string>("")
     const [error, setError] = useState<boolean>(false)
     const addTodolist = () => {
         const taskTitle = title.trim()
         if (taskTitle) {
             props.addNewTodolist(taskTitle)
+            // setTitle(taskTitle)
         } else {
             setError(true)
         }
@@ -36,7 +35,9 @@ function TodolistInput(props: TodoListInputType) {
         backgroundColor: 'blue',
         borderRadius: '5px',
         marginLeft: '2px',
+
     }
+
     const errorMessage = error && 'Title is required!'
     return (
         <div>
@@ -49,11 +50,12 @@ function TodolistInput(props: TodoListInputType) {
                 error={error}
                 onChange={onChangeSetTitle}
                 onKeyDown={onKeyDownAddTask}
-                className={error ? "error" : ""}
+                className={error ? "error" : ''}
                 />
 
             <Button onClick={addTodolist} style={addTaskStyle}>+</Button>
         </div>
     );
-}
+})
 
+export default TodolistInput
