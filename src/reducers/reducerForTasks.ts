@@ -68,9 +68,7 @@ export const addTaskAC = (todolistID: string, title: string) => {
         payload: {
             todolistID,
             taskID: v1(),
-            title,
-
-        }
+            title,}
     } as const
 }
 

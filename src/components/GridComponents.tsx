@@ -11,6 +11,7 @@ type PropsType = {
 }
 
 export const GridComponents = memo(({todolist}: PropsType) => {
+    console.log('grid component')
     const {id} = {...todolist}
     let tasks1 = useSelector<AppRootStateType, TasksType[]>(state => state.tasks[id])
     return (

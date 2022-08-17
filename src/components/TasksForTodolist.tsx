@@ -3,24 +3,19 @@ import TodolistTitle from "./TodolistTitle";
 import DeleteIcon from "@mui/icons-material/Delete";
 import React, {memo, useCallback} from "react";
 import {TasksType} from "../Todolist";
+import {useDispatch} from "react-redux";
+import {changeTasksStatusAC, editTaskAC, removeTaskAC} from "../reducers/reducerForTasks";
 
 type TaskPropsType = {
     task: TasksType,
-    removeTodolistTask: (taskID: string) => void
-    editTasksTitle:(newTitle: string)=>void,
-    changeTodolistTasksStatus:(taskID: string, eventValue: boolean)=>void,
-
+    todolistID: string
 }
 
 export const Tasks = memo(({
-                          task,
-                          removeTodolistTask,
-                          changeTodolistTasksStatus,
-                          editTasksTitle
+                          task, todolistID
 }:
                           TaskPropsType) => {
-    // let dispatch
-    // dispatch = useDispatch()
+    const dispatch = useDispatch()
     console.log('Tasks')
     const taskClasses = task.isDone ? 'is-done' : ''
     const styleForRTaskList = {
@@ -32,13 +27,13 @@ export const Tasks = memo(({
         color: 'black',
         marginTop: '10px',
     }
-    const removeTodolistTaskHandler = useCallback(() => removeTodolistTask(task.id),[removeTodolistTask, task.id])
+    const removeTodolistTaskHandler = useCallback(() => dispatch(removeTaskAC(todolistID, task.id)),[dispatch, todolistID, task.id])
     const changeTodolistTasksStatus1 = useCallback((taskID: string, eventValue: boolean) => {
-        changeTodolistTasksStatus(task.id, eventValue)
-    },[changeTodolistTasksStatus, task.id])
+        dispatch(changeTasksStatusAC(todolistID, task.id, eventValue))
+    },[dispatch, todolistID, task.id])
     const editTaskTitle1 = useCallback((newTitle: string) => {
-        editTasksTitle(newTitle)
-    },[editTasksTitle])
+        dispatch(editTaskAC(todolistID, task.id,newTitle))
+    },[dispatch, todolistID, task.id])
     return (
         <li key={task.id} className={taskClasses}>
             <CheckBox

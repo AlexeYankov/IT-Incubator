@@ -5,7 +5,7 @@ type TodoListInputType = {
     addNewTodolist: (title: string) => void
 }
 
-const TodolistInput = React.memo((props: TodoListInputType) => {
+export const TodolistInput = (props: TodoListInputType) => {
     const [title, setTitle] = useState<string>("")
     const [error, setError] = useState<boolean>(false)
     const addTodolist = () => {
@@ -38,7 +38,8 @@ const TodolistInput = React.memo((props: TodoListInputType) => {
 
     }
 
-    const errorMessage = error && 'Title is required!'
+    // const errorMessage = error && 'Title is required!'
+    const finalMessage = error ? error && 'Title is required!' : "Title"
     return (
         <div>
             <TextField
@@ -46,7 +47,7 @@ const TodolistInput = React.memo((props: TodoListInputType) => {
                 variant="outlined"
                 size="small"
                 value={title}
-                label={errorMessage}
+                label={finalMessage}
                 error={error}
                 onChange={onChangeSetTitle}
                 onKeyDown={onKeyDownAddTask}
@@ -56,6 +57,6 @@ const TodolistInput = React.memo((props: TodoListInputType) => {
             <Button onClick={addTodolist} style={addTaskStyle}>+</Button>
         </div>
     );
-})
+}
 
 export default TodolistInput

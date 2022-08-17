@@ -33,7 +33,6 @@ function App() {
         dispatch(addTodolistAC(newTitle, newID))
         dispatch(addStartTaskAC(newID))
     },[dispatch])
-
     const todoListsComponents = todolistData.map(tl => {
         return (
     //         <GridComponents

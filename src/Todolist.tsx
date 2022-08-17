@@ -14,7 +14,7 @@ import {
     removeTodolistAC
 } from "./reducers/reducerForTodolists";
 import {useDispatch, useSelector} from "react-redux";
-import {addTaskAC, changeTasksStatusAC, editTaskAC, removeTaskAC} from "./reducers/reducerForTasks";
+import {addTaskAC} from "./reducers/reducerForTasks";
 import {Tasks} from "./components/TasksForTodolist";
 
 
@@ -47,34 +47,12 @@ export const TodoList = memo(({todolist}: PropsType) => {
 
     let tasksForRender = tasksForTodolist.map(t => {
 
-        const removeTodolistTask = () => dispatch(removeTaskAC(id, t.id))
-        const changeTodolistTaskStatus = (taskID: string, eventValue: boolean) => {
-            dispatch(changeTasksStatusAC(id, t.id, eventValue))
-        }
-        const editTaskTitle2 = (newTitle: string) => {
-            dispatch(editTaskAC(id, t.id, newTitle))
-        }
-
         return (
             <Tasks
                 key={t.id}
                 task={t}
-                removeTodolistTask={removeTodolistTask}
-                changeTodolistTasksStatus={changeTodolistTaskStatus}
-                editTasksTitle={editTaskTitle2}
+                todolistID={id}
             />
-            // <li key={t.id} className={taskClasses}>
-            //     <CheckBox
-            //         callBack={(eventValue) => changeTodolistTaskStatus(t.id, eventValue)}
-            //         checked={t.isDone}/>
-            //     <TodolistTitle
-            //         title={t.title}
-            //         setTodolistTaskTitle={() => editTaskTitle(t.title)}/>
-            //     <DeleteIcon
-            //         onClick={removeTodolistTask}
-            //         style={styleForRTaskList}
-            //         className="removeTasks"/>
-            // </li>
         )
     })
 
